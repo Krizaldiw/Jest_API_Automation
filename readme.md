@@ -32,6 +32,8 @@ npm run test spec/folderName/tryJest.test.js
 1. Create a Test file in the ./spec folder
 2. Create a function if the request is always reused
 3. Don't display the credentials in the test file, save them in the configuration
+4. Don't push your project direct to master(production) but we have stage development --> master
+5. Don't forget to pull
 
 ## Contact
 
