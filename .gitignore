@@ -1,0 +1,4 @@
+/node_modules
+
+config/env/vault.json
+/html-report/jest-html-reporters-attach/report/result.js
