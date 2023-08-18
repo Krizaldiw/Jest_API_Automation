@@ -1,5 +1,5 @@
 const request = require("supertest");
-const { randomAlfabet, randomNumber } = require('../../pkg/generator/randomNumber');
+const { randomAlfabet, randomName , randomCompany, randomDepartment} = require('../../pkg/generator/randomGenerator');
 const envVault = require('../../config/env/vault.json');
 const baseURLAutomation = envVault.BASE_URL;
 const pathURLCREATEDATA = envVault.PATH_URL_CREATE_DATA;
@@ -7,22 +7,26 @@ const pathURLCREATEDATA = envVault.PATH_URL_CREATE_DATA;
 describe('Create Data Employee', () => {
     it('Create Data Employee With Valid Value', async () => {
         const generateRandomName = () => {
-            const firstNames = ['John', 'Jane', 'Michael', 'Emily', 'David', 'Sophia', 'Ibrahim','Daniel','Hakeem','Jasmine','Trusty','Andy','Sarah','Hazkiyal'];
-            const lastNames = ['Doe', 'Smith', 'Johnson', 'Williams', 'Brown','Niall','Mohammed','Aissa','Luke','Cleverley','McTominay','Adama','Lindegaard'];
-            const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-            const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-            return `${randomFirstName} ${randomLastName}`;
+            return `${randomName()}`;
         };
 
         const generateRandomNIM = () => {
             return `${randomAlfabet(7)}`;
         };
 
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
         const body = {
             "nim": generateRandomNIM(),
             "fullName": generateRandomName(),
-            "department": "Service Management",
-            "company": "Telkomsel",
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany(),
             "community": [
                 "Design Jam Indonesia",
                 "1001 StartUp Digital",
@@ -107,5 +111,197 @@ describe('Create Data Employee', () => {
 
         expect(response.status).toBe(409);  
         expect(response.body.message).toBe(`User with the same name ${body.fullName} already exists`);
+    });
+    it('Create Data Employee With NIM less than 7 Character', async () => {
+        
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet(6)}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM(),
+            "fullName": "Andar Rekik",
+            "department": "Field Engineer",
+            "company": "Aramco",
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400);  
+        expect(response.body.message);
+    });
+    it('Create Data Employee With fullName less than 3 Character', async () => {
+        
+        const generateRandomName = () => {
+            return `${randomName(2)}`;
+        };
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM,
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany,
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400);  
+        expect(response.body.message);
+    });
+    it('Create Data Employee With Spaces at Beginning', async () => {
+        
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": " KHH8732",
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany,
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With Spaces at End', async () => {
+        
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": "KHH8732 ",
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany,
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With Spaces at Middle', async () => {
+        
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": "KHH 8732",
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany,
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
     });
 });
