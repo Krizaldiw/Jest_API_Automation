@@ -304,4 +304,320 @@ describe('Create Data Employee', () => {
         expect(response.status).toBe(400); // Status should be 400, not 422
         expect(response.body.message);
     });
+    it('Create Data Employee With Empty NIM', async () => {
+        
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": "",
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany,
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With Empty Name', async () => {
+        
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM(),
+            "fullName": "",
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany(),
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With Empty Department', async () => {
+        
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM(),
+            "fullName": generateRandomName(),
+            "department": "",
+            "company": generateRandomCompany(),
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With Empty Company', async () => {
+        
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM(),
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": "",
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With SpecChar on NIM', async () => {
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const body = {
+            "nim": "#$&&*&$",
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany(),
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(422); // Status should be 400, not 422
+        expect(response.body.message).toBe("NIM cannot contain special characters");
+    });
+    it('Create Data Employee With SpecChar on fullName', async () => {
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM(),
+            "fullName": "#$&&",
+            "department": generateRandomDepartment(),
+            "company": generateRandomCompany(),
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With SpecChar on Department', async () => {
+
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomCompany = () => {
+            return `${randomCompany()}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM(),
+            "fullName": generateRandomName(),
+            "department": "#$&&*&^*&",
+            "company": generateRandomCompany(),
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
+    it('Create Data Employee With SpecChar on Department', async () => {
+
+        const generateRandomName = () => {
+            return `${randomName()}`;
+        };
+
+        const generateRandomNIM = () => {
+            return `${randomAlfabet()}`;
+        };
+
+        const generateRandomDepartment = () => {
+            return `${randomDepartment()}`;
+        };
+
+        const body = {
+            "nim": generateRandomNIM(),
+            "fullName": generateRandomName(),
+            "department": generateRandomDepartment(),
+            "company": "#$&&*&^*&",
+            "community": [
+                "Design Jam Indonesia",
+                "1001 StartUp Digital",
+                "Artifisial Indonesia",
+                "Data Science Indonesia",
+                "PythonID"
+            ]
+        };
+
+        const response = await request(baseURLAutomation)  // Update the URL as needed
+            .post(pathURLCREATEDATA)
+            .set('Content-Type', 'application/json')
+            .send(body);
+
+        // Assertion for the response
+        console.log(response.body);
+
+        expect(response.status).toBe(400); // Status should be 400, not 422
+        expect(response.body.message);
+    });
 });
