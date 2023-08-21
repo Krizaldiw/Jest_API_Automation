@@ -2,63 +2,135 @@
 // const { randomAlfabet, randomName, randomCompany, randomDepartment } = require('../../pkg/generator/randomGenerator');
 // const envVault = require('../../config/env/vault.json');
 // const baseURLAutomation = envVault.BASE_URL;
-// const pathURLCREATEDATA = envVault.PATH_URL_CREATE_DATA; // Update with the correct path
 // const pathURLUPDATEDATA = envVault.PATH_URL_UPDATE_DATA;
 
-// describe('Update Data Employee', () => {
-//     it('Update Data Employee With Valid Value', async () => {
-//         // Generate random values for creating data
-//         const randomNIM = randomAlfabet(7);
-//         const randomFullName = randomName();
-//         const randomDept = randomDepartment();
-//         const randomComp = randomCompany();
-//         const randomCommunity = [
-//             'Design Jam Indonesia',
-//             '1001 StartUp Digital',
-//             'Artifisial Indonesia',
-//             'Data Science Indonesia',
-//             'PythonID'
-//         ];
+const request = require('supertest');
+const envVault = require('../../config/env/vault.json'); // Update the path as needed
 
-//         // Create data using random values
-//         const createBody = {
-//             "nim": randomNIM,
-//             "fullName": randomFullName,
-//             "department": randomDept,
-//             "company": randomComp,
-//             "community": randomCommunity
-//         };
+const baseURLAutomation = envVault.BASE_URL; // Update with your base URL
+const pathURLUpdateData = envVault.PATH_URL_UPDATE_DATA; // Update with the correct path
 
-//         const createResponse = await request(baseURLAutomation)
-//             .post(pathURLCREATEDATA)
-//             .set('Content-Type', 'application/json')
-//             .send(createBody);
+describe('Update Data Profile', () => {
+  it('Update data with valid data', async () => {
+    const profileId = '64df213d31ff23688a2f5d0e';
 
-//         // Assertion for the create response
-//         expect(createResponse.status).toBe(201);
-//         expect(createResponse.body.message).toBe('Data has been created successfully');
-//         expect(createResponse.body.data.nim).toBe(randomNIM);
-//         // Add other assertions for the created data if needed
+    const updateDataPayload = {
+      nim: 'FAR11YX',
+      fullName: 'Hans Liness',
+      department: 'HR - Business Partner',
+      company: 'PrivyID',
+      community: [
+        'Digitalent by Kominfo',
+        '1001 StartUp Digital',
+        'Artifisial Indonesia',
+        'Data Science Indonesia',
+        'PythonID',
+        '1001 StartUp Digital',
+      ],
+    };
 
-//         // Use the same random values to update the data
-//         const updateBody = {
-//             "nim": randomNIM,
-//             "fullName": randomFullName,
-//             "department": randomDept,
-//             "company": randomComp,
-//             "community": randomCommunity
-//         };
+    const response = await request(baseURLAutomation)
+      .put(`${pathURLUpdateData}/${profileId}`)
+      .send(updateDataPayload)
+      .set('Content-Type', 'application/json');
 
-//         // Update the data using the same random values
-//         const profileId = createResponse.body.data.id; // Use the ID from the create response
-//         const updateResponse = await request(baseURLAutomation)
-//             .post(`${pathURLUPDATEDATA}/${profileId}`)
-//             .set('Content-Type', 'application/json')
-//             .send(updateBody);
+    console.log(response.body);
+    expect(response.body.message).toBe('Success Updated Data');
+    expect(response.body.status).toBe('UpdatedDataProfileSuccess');
+    expect(response.body.beforeUpdated).toBeDefined();
+    expect(response.body.afterUpdated).toBeDefined();
 
-//         // Assertion for the update response
-//         expect(updateResponse.status).toBe(200);
-//         expect(updateResponse.body.message).toBe('Success Updated Data');
-//         // Add other assertions for the updated data if needed
-//     });
-// });
+    // Add assertions for properties in beforeUpdated and afterUpdated
+    const { beforeUpdated, afterUpdated } = response.body;
+    expect(beforeUpdated.nim).toBe(updateDataPayload.nim);
+    expect(beforeUpdated.fullName).toBe(updateDataPayload.fullName);
+    expect(beforeUpdated.department).toBe(updateDataPayload.department);
+    expect(beforeUpdated.company).toBe(updateDataPayload.company);
+    expect(beforeUpdated.community).toEqual([
+        'Digitalent by Kominfo',
+        '1001 StartUp Digital',
+        'Artifisial Indonesia',
+        'Data Science Indonesia',
+        'PythonID',
+        '1001 StartUp Digital',
+    ]);
+    expect(afterUpdated.nim).toBe('FAR11YX');
+    expect(afterUpdated.fullName).toBe('Hans Liness');
+    expect(afterUpdated.department).toBe('HR - Business Partner');
+    expect(afterUpdated.company).toBe('PrivyID');
+    expect(afterUpdated.community).toEqual([
+        'Digitalent by Kominfo',
+        '1001 StartUp Digital',
+        'Artifisial Indonesia',
+        'Data Science Indonesia',
+        'PythonID',
+        '1001 StartUp Digital',
+    ]);
+    expect(afterUpdated.created_at).toMatch(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/);
+
+    const createdAt = new Date(beforeUpdated.created_at).getTime();
+    const updatedAtBefore = new Date(beforeUpdated.updated_at).getTime();
+    const updatedAtAfter = new Date(afterUpdated.updated_at).getTime();
+    expect(updatedAtBefore).toBeGreaterThanOrEqual(createdAt);
+    expect(updatedAtAfter).toBeGreaterThan(updatedAtBefore);
+
+    expect(beforeUpdated.id).toBe('64df213d31ff23688a2f5d0e');
+    expect(afterUpdated.id).toBe('64df213d31ff23688a2f5d0e');
+});
+
+it('Update data with non-existent ID', async () => {
+    const nonExistentProfileId = '64df213d31ff28392';
+
+    const updateDataPayload = {
+      nim: 'FAR11YX',
+      fullName: 'David Lang',
+      department: 'HRD - Talent Specialist',
+      company: 'Samsung',
+      community: [
+        'Digitalent by Kominfo',
+        '1001 StartUp Digital',
+        'Artifisial Indonesia',
+        'Data Science Indonesia',
+        'PythonID',
+        '1001 StartUp Digital',
+      ],
+    };
+
+    const response = await request(baseURLAutomation)
+      .put(`${pathURLUpdateData}/${nonExistentProfileId}`)
+      .send(updateDataPayload)
+      .set('Content-Type', 'application/json');
+
+    console.log(response.body);
+    expect(response.body.message).toBe('Data with ID is Not Registered');
+    expect(response.status).toBe(404);
+  });
+
+  it('Update data with empty profile id', async () => {
+    const nonExistentProfileId = '';
+
+    const updateDataPayload = {
+      nim: 'FAR11YX',
+      fullName: 'David Lang',
+      department: 'HRD - Talent Specialist',
+      company: 'Samsung',
+      community: [
+        'Digitalent by Kominfo',
+        '1001 StartUp Digital',
+        'Artifisial Indonesia',
+        'Data Science Indonesia',
+        'PythonID',
+        '1001 StartUp Digital',
+      ],
+    };
+
+    const response = await request(baseURLAutomation)
+      .put(`${pathURLUpdateData}/${nonExistentProfileId}`)
+      .send(updateDataPayload)
+      .set('Content-Type', 'application/json');
+
+    console.log(response.body);
+    expect(response.body.message).toBe('Data with ID is Not Registered');
+    expect(response.status).toBe(404);
+  });
+});
