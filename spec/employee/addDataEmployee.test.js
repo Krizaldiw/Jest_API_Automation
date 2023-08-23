@@ -1,4 +1,5 @@
 const request = require("supertest");
+const assert = require("chai").expect;
 const { randomAlfabet, randomName , randomCompany, randomDepartment} = require('../../pkg/generator/randomGenerator');
 const envVault = require('../../config/env/vault.json');
 const baseURLAutomation = envVault.BASE_URL;

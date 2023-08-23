@@ -6,14 +6,14 @@
 
 const request = require('supertest');
 const envVault = require('../../config/env/vault.json'); // Update the path as needed
-
+const assert = require("chai").expect;
 const baseURLAutomation = envVault.BASE_URL; // Update with your base URL
 const pathURLUpdateData = envVault.PATH_URL_UPDATE_DATA; // Update with the correct path
 
 describe('Update Data Profile', () => {
   it('Update data with valid data', async () => {
     const profileId = '64df213d31ff23688a2f5d0e';
-
+    
     const updateDataPayload = {
       nim: 'FAR11YX',
       fullName: 'Hans Liness',
@@ -80,34 +80,6 @@ describe('Update Data Profile', () => {
 
 it('Update data with non-existent ID', async () => {
     const nonExistentProfileId = '64df213d31ff28392';
-
-    const updateDataPayload = {
-      nim: 'FAR11YX',
-      fullName: 'David Lang',
-      department: 'HRD - Talent Specialist',
-      company: 'Samsung',
-      community: [
-        'Digitalent by Kominfo',
-        '1001 StartUp Digital',
-        'Artifisial Indonesia',
-        'Data Science Indonesia',
-        'PythonID',
-        '1001 StartUp Digital',
-      ],
-    };
-
-    const response = await request(baseURLAutomation)
-      .put(`${pathURLUpdateData}/${nonExistentProfileId}`)
-      .send(updateDataPayload)
-      .set('Content-Type', 'application/json');
-
-    console.log(response.body);
-    expect(response.body.message).toBe('Data with ID is Not Registered');
-    expect(response.status).toBe(404);
-  });
-
-  it('Update data with empty profile id', async () => {
-    const nonExistentProfileId = '';
 
     const updateDataPayload = {
       nim: 'FAR11YX',

@@ -1,4 +1,5 @@
 const request = require('supertest');
+const assert = require("chai").expect;
 const envVault = require('../../config/env/vault.json');
 const baseURLAutomation = envVault.BASE_URL;
 const pathURLGetAllData = envVault.PATH_URL_GET_ALL_DATA; // Corrected the variable name

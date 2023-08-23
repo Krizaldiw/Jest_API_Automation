@@ -1,4 +1,5 @@
 const request = require('supertest');
+const assert = require("chai").expect;
 const envVault = require('../../config/env/vault.json');
 const baseURLAutomation = envVault.BASE_URL; // Update with your base URL
 const pathURLGetDataById = envVault.PATH_URL_GET_DATA_BY_ID; // Update with the correct path
