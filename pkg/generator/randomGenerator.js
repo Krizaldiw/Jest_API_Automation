@@ -1,6 +1,6 @@
 function randomName() {
-    const firstNames = ['John', 'Jane', 'Michael', 'Emily', 'David', 'Sophia', 'Ibrahim','Daniel','Hakeem','Jasmine','Trusty','Andy','Sarah','Hazkiyal','Kenneth','Petar', 'Kalvin','Rudy','Bradley','Faez','Rajwa'];
-    const lastNames = ['Doe', 'Smith', 'Johnson', 'Williams', 'Brown','Niall','Mohammed','','Aissa','Luke','Cleverley','McTominay','Adama','Lindegaard','Garcia','Antony', 'Terence','Taarabt','Luis','Hampton','Hernandez'];
+    const firstNames = ['John', 'Jane', 'Michael', 'Emily', 'David', 'Sophia', 'Ibrahim','Daniel','Hakeem','Jasmine','Trusty','Andy','Sarah','Hazkiyal','Kenneth','Petar', 'Kalvin','Rudy','Bradley','Faez','Rajwa','Phillip','Duvan','Micky','Juan'];
+    const lastNames = ['Doe', 'Smith', 'Johnson', 'Williams', 'Brown','Niall','Mohammed','','Aissa','Luke','Cleverley','McTominay','Adama','Lindegaard','Garcia','Antony', 'Terence','Taarabt','Luis','Hampton','Hernandez','Werner','Alexandra','Musa'];
     const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     return `${randomFirstName} ${randomLastName}`;
